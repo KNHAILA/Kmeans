@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,23 +18,25 @@ public class Utils {
 	}
 	
 	public static List<double[]> randomCentroids(List<double[]> records) {
-		double maxX = 0;
-		double minX = 0;
-		double minY = 0;
-		double maxY = 0;	    
+		double maxX = Double.MIN_VALUE;
+		double minX = Double.MAX_VALUE;
+		double minY = Double.MAX_VALUE;
+		double maxY = Double.MIN_VALUE;	    
 		List<double[]> centroids = new ArrayList<double[]>();
 		for (double[] record : records) 
 	    {	
 	    	maxX = record[0] > maxX ? record[0] : maxX;
 	    	minX = record[0] < minX ? record[0] : minX;
-	    	maxX = record[1] > maxX ? record[0] : maxX;
-	    	minX = record[1] < minX ? record[0] : minX;
+	    	maxY = record[1] > maxY ? record[1] : maxY;
+	    	minY = record[1] < minY ? record[1] : minY;
 	    }
 
+		//System.out.println("maxX   "+maxX+"   minX      "+minX+" maxY    "+maxY+"      minY       "+minY);
 	    for (int i = 0; i < 5; i++) {
 	        double[] coordinates = new double[2];
 	        coordinates[0] = random.nextDouble() * (maxX - minX) + minX;
 	        coordinates[1] = random.nextDouble() * (maxY - minY) + minY;
+	      //  System.out.println("["+coordinates[0]+","+coordinates[1]+"]");
 			centroids.add(coordinates);
 	    }
 	    return centroids;
@@ -85,4 +92,30 @@ public class Utils {
 	    }
 		return centroids;
 	}
+	
+	
+	public static List<double[]> readFile(String fileLink){
+		List<double[]> records = new ArrayList<double[]>();
+		File file = new File(fileLink);
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String st;
+			try {
+				while ((st = br.readLine()) != null)
+				{
+					String[] parts = st.split(" ");
+					//System.out.println("["+Double.parseDouble(parts[0])+","+ Double.parseDouble(parts[1])+"]");
+					double[]  record = {Double.parseDouble(parts[0]), Double.parseDouble(parts[1])};
+					records.add(record);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return records;
+	}
 }
+

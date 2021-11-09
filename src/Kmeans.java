@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,13 @@ public class Kmeans {
 		Map<double[], List<double[]>> lastState = new HashMap<>();
 		
 		for (int i = 0; i < maxIterations; i++) {
+		//	System.out.print("i"+i);
 			boolean isLastIteration = i == maxIterations - 1;
 			for (double[] record : records) {
 				double[] centroid = Utils.nearestCentroid(record, centroids);
 				List<double[]> list = clusters.get(centroid);
+				if(list == null)
+					list = new ArrayList<double[]>();
 				list.add(record);
 				clusters.put(centroid, list);
 		}
@@ -30,12 +34,24 @@ public class Kmeans {
 	}
 	
 	
-	public double score()
+	public static double score(Map<double[], List<double[]>> clusters)
 	{
-		return 0;
+		double score = 0.0;
+		for (Map.Entry mapentry : clusters.entrySet()) {
+			List<double[]> records = (List<double[]>)mapentry.getValue();
+			for(double[] record : records) {
+				score += Utils.calculateEuclideanDistance((double[])mapentry.getKey(), record);
+			}
+	    }
+		return score;
 	}
+	
+	
+	public static double getScore(String fileName) {
+		return score(fit(Utils.readFile(fileName),50));
+	}
+	
 	public Kmeans() {
-		// TODO Auto-generated constructor stub
 	}
 
 }
