@@ -48,7 +48,7 @@ public class Kmeans {
 	
 	
 	public static double getScore(String fileName) {
-		return score(fit(Utils.readFile(fileName),50));
+		return score(fit(Utils.readFile(fileName),100));
 	}
 	
 	public Kmeans() {

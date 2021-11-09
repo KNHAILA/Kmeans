@@ -30,13 +30,10 @@ public class Utils {
 	    	maxY = record[1] > maxY ? record[1] : maxY;
 	    	minY = record[1] < minY ? record[1] : minY;
 	    }
-
-		//System.out.println("maxX   "+maxX+"   minX      "+minX+" maxY    "+maxY+"      minY       "+minY);
 	    for (int i = 0; i < 5; i++) {
 	        double[] coordinates = new double[2];
 	        coordinates[0] = random.nextDouble() * (maxX - minX) + minX;
 	        coordinates[1] = random.nextDouble() * (maxY - minY) + minY;
-	      //  System.out.println("["+coordinates[0]+","+coordinates[1]+"]");
 			centroids.add(coordinates);
 	    }
 	    return centroids;
@@ -105,7 +102,6 @@ public class Utils {
 				while ((st = br.readLine()) != null)
 				{
 					String[] parts = st.split(" ");
-					//System.out.println("["+Double.parseDouble(parts[0])+","+ Double.parseDouble(parts[1])+"]");
 					double[]  record = {Double.parseDouble(parts[0]), Double.parseDouble(parts[1])};
 					records.add(record);
 				}
